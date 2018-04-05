@@ -6,7 +6,7 @@ class User(models.Model):
 	password = models.CharField(max_length=200)
 	user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
 	fullname = models.CharField(max_length=200, blank=True,null=True)
-	profile_pic = models.ImageField(upload_to='profile_pic', blank=True, null=True)
+	image = models.ImageField(upload_to='image', blank=True, null=True)
   
    
 

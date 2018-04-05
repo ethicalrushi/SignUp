@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 
 from .serializers import UserSerializer
 from rest_framework.generics import RetrieveAPIView
@@ -30,7 +30,8 @@ def register(request):
 			user = User()
 			user.password = make_password(password)
 			user.username = form.cleaned_data['username']
-			#user.profile_pic = form.cleaned_data['profile_pic']
+			user.fullname = form.cleaned_data['fullname']
+			user.image = form.cleaned_data['image']
 			user.save()
 
 			print(user.password)
@@ -49,13 +50,15 @@ def loginview(request):
 	if request.method =='POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
-		user = User.objects.get(username=request.POST['username'])
-		userpass= user.password
-		
-		if check_password(password, userpass):
-			print('wow')
-			request.session['username']= user.username
-			return render(request,'index.html',{'username':username,})	 
+		if User.objects.filter(username=request.POST['username']).exists():
+			user = User.objects.get(username=request.POST['username'])
+			userpass= user.password
+			
+			if check_password(password, userpass):
+				print('wow')
+				request.session['username']= user.username
+				return render(request,'index.html',{'username':username,})	 
+
 	return render(request,'login.html')	
 			
 def index(request):
@@ -71,11 +74,21 @@ def logout(request):
 	return HttpResponse("logged out")
 
 
-class UserList(APIView):
+#class UserList(APIView):
 
-	def get(self,request):
-		users = User.objects.all()
-		serializer = UserSerializer(users, many=True)
-		return Response(serializer.data)
+	##def get(self,request):
+	#	users = User.objects.all()
+	#	serializer = UserSerializer(users, many=True)
+	#	return Response(serializer.data)
 
 
+class DisplayViewSet(viewsets.ModelViewSet):
+	queryset = User.objects.all()
+	serializer_class= UserSerializer
+
+
+
+
+
+def dataview(request):
+	return render(request,'data.html')

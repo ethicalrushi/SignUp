@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+{% if username is None %}
+	<form method="post" role="form">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="submit">
+	{% else %}
+
+		<h3>Welcome {{ username }}!</h3><br>
+		You are signed in
+		<a href="{% url 'demos-sessions' %} ?action=logout">Logout</a>
+		{% endif %}	
+
+
+	</form>
+	
+
+
+</body>
+</html>

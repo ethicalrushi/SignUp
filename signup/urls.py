@@ -20,17 +20,18 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from loginapp import views
 from django.conf.urls.static import static
 from django.conf import settings
+from loginapp.forms import session_demo
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^register/',views.register),
-    url(r'^login/',views.loginview, name='login'),
-    url(r'^logout/',views.logout, name='logout'),
-    #url(r'^users/',views.UserList.as_view()),
-    url(r'^$',views.index),
+   
+  
+    
     url(r'^data/',views.dataview),
-    url(r'^api/',include('loginapp.urls'))
+    url(r'^api/',include('loginapp.urls')),
+    url(r'^demos/sessions/', session_demo,name='demos-sessions' )
 
 ]
 

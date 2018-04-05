@@ -7,6 +7,5 @@ app_name = 'loginapp'
 
 urlpatterns = [
  
-    url(r'^login/',views.login),
    
 ]

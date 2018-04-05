@@ -16,10 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
+from rest_framework.urlpatterns import format_suffix_patterns
 from loginapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^register/',views.register),
     url(r'^login/',views.loginview, name='login'),
+    url(r'^logout/',views.logout, name='logout'),
+    url(r'^users/',views.UserList.as_view()),
+    url(r'^$',views.index),
+    
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
